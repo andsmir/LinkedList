@@ -41,7 +41,10 @@ std::string LinkedList::ToString()
     auto result =  current->data.ToString();
     return result;
 }
-
+bool LinkedList::IsEmpty()
+{
+    return (head==nullptr);
+}
 void LinkedList::Erase()
 {
     if (current==nullptr)

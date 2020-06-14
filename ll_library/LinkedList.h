@@ -151,6 +151,7 @@ public:
 
 
     //Navigation
+    bool IsEmpty();
     void GoHead();
     void GoTail();
     bool MoveForward();

@@ -47,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent)
                          list, SLOT(Search()));
     connect(ui->PopulateList, SIGNAL(clicked()),
                          list, SLOT(PopulateList()));
+    connect(ui->AutoUpdateEnabled, SIGNAL(stateChanged(int)),
+                         list, SLOT(AutoUpdate(int)));
+
+
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 }

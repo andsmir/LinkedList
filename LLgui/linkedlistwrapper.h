@@ -16,6 +16,7 @@ public:
 private:
     LinkedList list;
     Ui::MainWindow *ui;
+    bool autoUpdate;
 
 signals:
     void UpdateCount(QString);
@@ -41,6 +42,7 @@ public slots:
     void InsertAfter();
     void Search();
     void PopulateList();
+    void AutoUpdate(int);
 
 private slots:
 

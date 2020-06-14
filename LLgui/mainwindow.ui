@@ -296,8 +296,49 @@
      </rect>
     </property>
     <property name="text">
-     <string>PopulateList</string>
+     <string>Update</string>
     </property>
+   </widget>
+   <widget class="QCheckBox" name="AutoUpdateEnabled">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>260</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>AutoUpdate</string>
+    </property>
+   </widget>
+   <widget class="QSplitter" name="splitter">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>320</y>
+      <width>307</width>
+      <height>48</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>1. Add elements to list using &quot;List manipulations&quot;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>2. &quot;Current item&quot; group  works with iterator inside list</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>3. Update and AutoUpdate will reset iterator to tail</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

@@ -2,7 +2,8 @@
 #include "LinkedList.h"
 #include "ui_mainwindow.h"
 
-LinkedListWrapper::LinkedListWrapper(QObject *parent, Ui::MainWindow *UI) : QObject(parent), list(), ui(UI)
+LinkedListWrapper::LinkedListWrapper(QObject *parent, Ui::MainWindow *UI)
+    : QObject(parent), list(), ui(UI), autoUpdate(false)
 {
 
 }
@@ -30,7 +31,7 @@ void LinkedListWrapper::PushFront()
        default:
        break;
    }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::PushBack()
 {
@@ -51,9 +52,8 @@ void LinkedListWrapper::PushBack()
         default:
         break;
     }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
-
 void LinkedListWrapper::Count()
 {
     auto count = QString::number(list.Count());
@@ -61,8 +61,8 @@ void LinkedListWrapper::Count()
 }
 void LinkedListWrapper::DropList()
 {
-    list.DropList();
-    emit PopulateList();
+   list.DropList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::FindEraseAll()
 {
@@ -83,10 +83,12 @@ void LinkedListWrapper::FindEraseAll()
         default:
         break;
     }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::Read()
 {
+    if (list.IsEmpty())
+        return;
     auto type = list.GetType();
     emit UpdateCurrentType(QString::fromStdString(Utils::GetTypesDesc(type)));
     switch (type)
@@ -107,24 +109,32 @@ void LinkedListWrapper::Read()
 }
 void LinkedListWrapper::Prev()
 {
+    if (list.IsEmpty())
+        return;
     list.MoveBack();
-    emit Read();
+    Read();
 
 }
 void LinkedListWrapper::Next()
 {
+    if (list.IsEmpty())
+        return;
     list.MoveForward();
-    emit Read();
+    Read();
 }
 
 void LinkedListWrapper::Erase()
 {
+    if (list.IsEmpty())
+        return;
     list.Erase();
     emit Read();
-    emit PopulateList();
+    if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::Write()
 {
+    if (list.IsEmpty()) // create list first
+        return;
     auto text = ui->CurrentValue->text();
     auto type = ui->CurrentType->currentIndex();
     auto enumType = Utils::TypeFromInt(type);
@@ -142,14 +152,16 @@ void LinkedListWrapper::Write()
         default:
         break;
     }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::Reset()
 {
-    emit Read();
+    Read();
 }
 void LinkedListWrapper::InsertBefore()
 {
+    if (list.IsEmpty())
+        return;
     auto text = ui->CurrentValue->text();
     auto type = ui->CurrentType->currentIndex();
     auto enumType = Utils::TypeFromInt(type);
@@ -167,10 +179,12 @@ void LinkedListWrapper::InsertBefore()
         default:
         break;
     }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::InsertAfter()
 {
+    if (list.IsEmpty())
+        return;
     auto text = ui->CurrentValue->text();
     auto type = ui->CurrentType->currentIndex();
     auto enumType = Utils::TypeFromInt(type);
@@ -188,10 +202,12 @@ void LinkedListWrapper::InsertAfter()
         default:
         break;
     }
-   emit PopulateList();
+   if (autoUpdate) PopulateList();
 }
 void LinkedListWrapper::Search()
 {
+    if (list.IsEmpty())
+        return;
     auto text = ui->CurrentValue->text();
     auto type = ui->CurrentType->currentIndex();
     auto enumType = Utils::TypeFromInt(type);
@@ -213,8 +229,11 @@ void LinkedListWrapper::Search()
 }
 void LinkedListWrapper::PopulateList()
 {
+
     ui->tableWidget->setRowCount(0);
     ui->tableWidget->clear();
+    if (list.IsEmpty())
+        return;
     list.GoHead();
     do
     {
@@ -228,4 +247,12 @@ void LinkedListWrapper::PopulateList()
     }
     while (list.MoveForward());
 
+}
+
+void LinkedListWrapper::AutoUpdate(int value)
+{
+    if (value!=Qt::Unchecked)
+        autoUpdate =true;
+    else
+        autoUpdate = false;
 }
