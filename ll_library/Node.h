@@ -207,7 +207,8 @@ private:
 
 struct Node
 {
-
+    friend class LinkedList; //End-user class
+    friend class LinkedListTest; // unit test class
 TYPE_LIMITER_INT_DOUBLE_STRING
     Node(T value, Node* prv, Node* nxt)
         :data(value), prev(prv), next(nxt){};
@@ -215,7 +216,7 @@ TYPE_LIMITER_INT_DOUBLE_STRING
 
     ~Node() = default;
 
-public:   //  anyway we need use all of this fields, so let's do it directly without trivial setters/getters
+private:   //  anyway we need use all of this fields, so let's do it directly without trivial setters/getters via "friend"
     Data data;
     Node* prev;
     Node* next;
