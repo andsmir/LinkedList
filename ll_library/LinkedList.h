@@ -4,6 +4,7 @@
 #include "Node.h"
 #include <type_traits>
 #include <cfloat>
+#include <cmath>
 
 class LinkedList
 {
@@ -122,7 +123,7 @@ public:
                 }
                 else {}
                 else if constexpr (std::is_same<T, double>::value)
-                        if ((runner->data.TryGetDouble() - value ) < DBL_EPSILON)
+                        if (std::fabs(runner->data.TryGetDouble() - value ) < DBL_EPSILON)
                 {
                     found = true;
                 }
@@ -179,7 +180,7 @@ public:
                     break;
                     case Types::Double:
                     if constexpr (std::is_same<T, double>::value)// make compiler happy
-                    if ((runner->data.TryGetDouble() - value ) < DBL_EPSILON)
+                    if (std::fabs(runner->data.TryGetDouble() - value ) < DBL_EPSILON)
                     {
                         found = true;
                         current = runner;
