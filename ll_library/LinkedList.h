@@ -3,6 +3,7 @@
 #define LINKEDLIST_H
 #include "Node.h"
 #include <type_traits>
+#include <cfloat>
 
 class LinkedList
 {
@@ -121,7 +122,7 @@ public:
                 }
                 else {}
                 else if constexpr (std::is_same<T, double>::value)
-                        if (value == runner->data.TryGetDouble())
+                        if ((runner->data.TryGetDouble() - value ) < DBL_EPSILON)
                 {
                     found = true;
                 }
@@ -178,7 +179,7 @@ public:
                     break;
                     case Types::Double:
                     if constexpr (std::is_same<T, double>::value)// make compiler happy
-                    if (value == runner->data.TryGetDouble())
+                    if ((runner->data.TryGetDouble() - value ) < DBL_EPSILON)
                     {
                         found = true;
                         current = runner;
